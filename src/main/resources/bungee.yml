@@ -1,0 +1,10 @@
+name: Multichat
+version: ${project.version}
+main: koral.multichat.Multichat
+description: multichat bungee plugin
+commands:
+  clearchat:
+    permission:
+      multichat.admin
+  clearchatall:
+      multichat.admin
