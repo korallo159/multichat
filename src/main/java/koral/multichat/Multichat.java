@@ -21,6 +21,9 @@ public final class Multichat extends Plugin implements Listener {
         getProxy().getPluginManager().registerCommand(this, new chatAllCommand());
         getProxy().getPluginManager().registerCommand(this, new chatAllClear());
         getProxy().getPluginManager().registerCommand(this, new chatGlobalCommand());
+        getProxy().getPluginManager().registerCommand(this, new chatFreeze());
+        //
+        getProxy().getPluginManager().registerListener(this, new chatFreeze());
         // Plugin startup logic
     }
 

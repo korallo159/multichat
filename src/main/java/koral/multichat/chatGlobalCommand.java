@@ -6,12 +6,14 @@ import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
+import net.md_5.bungee.api.plugin.TabExecutor;
 
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 
-
-public class chatGlobalCommand extends Command {
+public class chatGlobalCommand extends Command implements TabExecutor {
     HashMap<ProxiedPlayer, Long> cooldown = new HashMap<>();
 
 
@@ -30,9 +32,9 @@ public class chatGlobalCommand extends Command {
         }
         ProxiedPlayer target = ProxyServer.getInstance().getPlayer(args[0]);
          if(target == null)
-              sender.sendMessage(new TextComponent(ChatColor.RED + "Taki gracz nie jest aktualnie online w sieci!"));
+             sender.sendMessage(new TextComponent(ChatColor.RED + "Taki gracz nie jest aktualnie online w sieci!"));
           else if(target == sender)
-              sender.sendMessage(new TextComponent(ChatColor.RED + "Nie możesz pisać sam ze sobą!"));
+             sender.sendMessage(new TextComponent(ChatColor.RED + "Nie możesz pisać sam ze sobą!"));
         else if(sender instanceof ProxiedPlayer && cooldown.get(player) == null)   //jesli gracz na starcie nie ma cooldownu
          {
              sendMessage(sender, args);
@@ -60,4 +62,17 @@ public class chatGlobalCommand extends Command {
 
 
     }
+    public Iterable<String> onTabComplete(final CommandSender sender, final String[] args) {
+        final Set<String> match = new HashSet<>();
+        if (args.length == 1) {
+            final String search = args[0].toLowerCase();
+            for (final ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
+                if (player.getName().toLowerCase().startsWith(search)) {
+                    match.add(player.getName());
+                }
+            }
+        }
+        return match;
+    }
+
 }
